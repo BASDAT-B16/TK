@@ -1,7 +1,7 @@
 TUGAS KELOMPOK BASIS DATA
 
 Kelas       : B
-Kelompok    : B16
+Kelompok    : 16
 
 Nama anggota:
 1. Muhammad Fauzan Jaisyurrahman - 2206814040
