@@ -202,5 +202,21 @@
             <div class="col" data-label="Kolom 6">120000</div>
           </li>
       </ul>
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          var beliButtons = document.querySelectorAll(".beli-button");
+      
+          beliButtons.forEach(function(button) {
+            button.addEventListener("click", function() {
+
+              var currentPath = window.location.pathname;
+              var beliPath = currentPath + "beli/";
+
+              window.location.href = beliPath;
+            });
+          });
+        });
+      </script>
+      
     </div>
 {% endblock content %}

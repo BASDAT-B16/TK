@@ -119,7 +119,21 @@
     </select>
   </div>
   <div class="btn-beli">
-    <button>Bayar</button>
+    <button class="bayar-button"n>Bayar</button>
   </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var beliButtons = document.querySelectorAll(".bayar-button");
+  
+      beliButtons.forEach(function(button) {
+        button.addEventListener("click", function() {
+          var currentPath = window.location.pathname;
+          var bayarPath = currentPath.replace("beli/", "");
+          window.location.href = bayarPath;
+        });
+      });
+    });
+  </script>
+  
 </div>
 {% endblock content %}
