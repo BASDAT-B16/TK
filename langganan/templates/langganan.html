@@ -1,6 +1,206 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Langganan</h1>
+<style>
+  body {
+    font-family: 'lato', sans-serif;
+  }
+  .container {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  h2 {
+    font-size: 26px;
+    margin: 20px 0;
+    text-align: center;
+  }
+  h2 small {
+    font-size: 0.5em;
+  }
+  
+  label {
+    margin-right: 10px;
+  }
 
+  select {
+    width: 150px;
+  }
+
+  .responsive-table {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    list-style: none;
+  }
+
+  .responsive-table .table-header {
+    background-color: #95A5A6;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-radius: 3px;
+    padding: 15px;
+    width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+  }
+
+  .responsive-table .table-header .col {
+    flex: 1;
+    text-align: center;
+  }
+
+  .responsive-table .table-row {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+    border-radius: 3px;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 15px;
+    display: flex;
+  }
+
+  .responsive-table .col {
+    text-align: center;
+    flex: 1;
+  }
+
+  .tabel-pertama .col:nth-child(1),
+  .tabel-pertama .col:nth-child(2),
+  .tabel-pertama .col:nth-child(3),
+  .tabel-pertama .col:nth-child(4),
+  .tabel-pertama .col:nth-child(5),
+  .tabel-pertama .col:nth-child(6) {
+    flex: 1;
+  }
+
+  .tabel-kedua .col:nth-child(1),
+  .tabel-kedua .col:nth-child(2),
+  .tabel-kedua .col:nth-child(3),
+  .tabel-kedua .col:nth-child(4),
+  .tabel-kedua .col:nth-child(5) {
+    flex: 2;
+  }
+
+  .tabel-ketiga .col:nth-child(1),
+  .tabel-ketiga .col:nth-child(2),
+  .tabel-ketiga .col:nth-child(3),
+  .tabel-ketiga .col:nth-child(4),
+  .tabel-ketiga .col:nth-child(5),
+  .tabel-ketiga .col:nth-child(6) {
+    flex: 1;
+  }
+
+  @media all and (min-width: 768px) {
+    .responsive-table .table-row {
+      width: 100%;
+    }
+  }
+
+  @media all and (min-width: 1200px) {
+    .responsive-table .table-row {
+      width: 100%;
+    }
+  }
+</style>
+
+<div class="container">
+    <h2>Halaman Kelola Langganan</h2>
+  <div>Paket langganan aktif Anda:</div>
+  <div class="container">
+    <ul class="responsive-table tabel-pertama">
+      <li class="table-header">
+        <div class="col"><span style="font-weight: bold;">Nama</span></div>
+        <div class="col"><span style="font-weight: bold;">Harga</span></div>
+        <div class="col"><span style="font-weight: bold;">Resolusi Layar</span></div>
+        <div class="col"><span style="font-weight: bold;">Dukungan Perangkat</span></div>
+        <div class="col"><span style="font-weight: bold;">Tanggal Dimulai</span></div>
+        <div class="col"><span style="font-weight: bold;">Tanggal Akhir</span></div>
+      </li>
+      <li class="table-row">
+        <div class="col" data-label="Nama">Basic</div>
+        <div class="col" data-label="Harga">300000</div>
+        <div class="col" data-label="Resolusi Layar">4k</div>
+        <div class="col" data-label="Dukungan Perangkat">Television</div>
+        <div class="col" data-label="Tanggal Dimulai">2 Februari 2024</div>
+        <div class="col" data-label="Tanggal Akhir">2 Februari 2025</div>
+      </li>
+    </ul>
+  </div>
+
+  <div>Pilih paket lain:</div>
+  <div class="container">
+    <ul class="responsive-table tabel-kedua">
+      <li class="table-header">
+        <div class="col"><span style="font-weight: bold;">Nama</span></div>
+        <div class="col"><span style="font-weight: bold;">Harga</span></div>
+        <div class="col"><span style="font-weight: bold;">Resolusi Layar</span></div>
+        <div class="col"><span style="font-weight: bold;">Dukungan Perangkat</span></div>
+        <div class="col"><span style="font-weight: bold;">Beli</span></div>
+      </li>
+      <li class="table-row">
+        <div class="col" data-label="Kolom 1">Premium</div>
+        <div class="col" data-label="Kolom 2">120000</div>
+        <div class="col" data-label="Kolom 3">720p</div>
+        <div class="col" data-label="Kolom 4">Mobile Phone</div>
+        <div class="col" data-label="Kolom 5">
+            <button class="beli-button">Beli</button>
+          </div>
+      </li>
+      <li class="table-row">
+        <div class="col" data-label="Kolom 1">Standar</div>
+        <div class="col" data-label="Kolom 2">200000</div>
+        <div class="col" data-label="Kolom 3">1080p</div>
+        <div class="col" data-label="Kolom 4">Television</div>
+        <div class="col" data-label="Kolom 5">
+            <button class="beli-button">Beli</button>
+          </div>
+      </li>
+      <li class="table-row">
+        <div class="col" data-label="Kolom 1">Basic</div>
+        <div class="col" data-label="Kolom 2">300000</div>
+        <div class="col" data-label="Kolom 3">4k</div>
+        <div class="col" data-label="Kolom 4">Personal Computer</div>
+        <div class="col" data-label="Kolom 5">
+            <button class="beli-button">Beli</button>
+          </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="container">
+    <div>Riwayat transaksi:</div>
+    <div class="container">
+      <ul class="responsive-table tabel-ketiga">
+        <li class="table-header">
+          <div class="col"><span style="font-weight: bold;">Nama Paket</span></div>
+          <div class="col"><span style="font-weight: bold;">Tanggal Dimulai</span></div>
+          <div class="col"><span style="font-weight: bold;">Tanggal Akhir</span></div>
+          <div class="col"><span style="font-weight: bold;">Metode Pembayaran</span></div>
+          <div class="col"><span style="font-weight: bold;">Tanggal Pembayaran</span></div>
+          <div class="col"><span style="font-weight: bold;">Total Pembayaran</span></div>
+        </li>
+        <li class="table-row">
+          <div class="col" data-label="Kolom 1">Standar</div>
+          <div class="col" data-label="Kolom 2">2 Februari 2022</div>
+          <div class="col" data-label="Kolom 3">2 Februari 2023</div>
+          <div class="col" data-label="Kolom 4">E-Wallet</div>
+          <div class="col" data-label="Kolom 5">2 Februari 2022</div>
+          <div class="col" data-label="Kolom 6">200000</div>
+        </li>
+        <li class="table-row">
+            <div class="col" data-label="Kolom 1">Premium</div>
+            <div class="col" data-label="Kolom 2">2 Februari 2023</div>
+            <div class="col" data-label="Kolom 3">2 Februari 2024</div>
+            <div class="col" data-label="Kolom 4">Kartu kredit</div>
+            <div class="col" data-label="Kolom 5">2 Februari 2024</div>
+            <div class="col" data-label="Kolom 6">120000</div>
+          </li>
+      </ul>
+    </div>
 {% endblock content %}
