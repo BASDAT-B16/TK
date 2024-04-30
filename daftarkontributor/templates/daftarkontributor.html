@@ -1,6 +1,151 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Daftar Kontributor</h1>
+<style>
+  body {
+    font-family: 'lato', sans-serif;
+  }
+  .container {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  h2 {
+    font-size: 26px;
+    margin: 20px 0;
+    text-align: center;
+  }
+  h2 small {
+    font-size: 0.5em;
+  }
+  
+  label {
+    margin-right: 10px;
+  }
 
+  select {
+    width: 150px;
+  }
+
+  .responsive-table {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    list-style: none;
+  }
+
+  .responsive-table .table-header {
+    background-color: #95A5A6;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-radius: 3px;
+    padding: 15px;
+    width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+  }
+
+  .responsive-table .table-header .col {
+    flex: 1;
+    text-align: center;
+  }
+
+  .responsive-table .table-row {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+    border-radius: 3px;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 15px;
+    display: flex;
+  }
+
+  .responsive-table .col {
+    text-align: center;
+    flex: 1;
+  }
+
+  @media all and (min-width: 768px) {
+    .responsive-table .table-row {
+      width: 100%;
+    }
+  }
+
+  @media all and (min-width: 1200px) {
+    .responsive-table .table-row {
+      width: 100%;
+    }
+  }
+</style>
+
+<div class="container">
+  <h2>Daftar Kontributor</h2>
+  <div class="container">
+    <label for="tipe">Filter sesuai tipe:</label>
+    <select id="tipe">
+      <option value="Semua">Semua</option>
+      <option value="Sutradara">Sutradara</option>
+      <option value="Pemain">Pemain</option>
+      <option value="Penulis">Penulis</option>
+    </select>
+  <ul class="responsive-table">
+    <li class="table-header">
+      <div class="col"><span style="font-weight: bold;">Nama</span></div>
+      <div class="col"><span style="font-weight: bold;">Tipe</span></div>
+      <div class="col"><span style="font-weight: bold;">Jenis Kelamin</span></div>
+      <div class="col"><span style="font-weight: bold;">Kewarganegaraan</span></div>
+    </li>
+    <li class="table-row">
+      <div class="col" data-label="Nama">Rose</div>
+      <div class="col" data-label="Tipe">Sutradara</div>
+      <div class="col" data-label="Jenis Kelamin">Perempuan</div>
+      <div class="col" data-label="Kewarganegaraan">Korea Selatan</div>
+    </li>
+    <li class="table-row">
+      <div class="col" data-label="Nama">Jisoo</div>
+      <div class="col" data-label="Tipe">Penulis</div>
+      <div class="col" data-label="Jenis Kelamin">Perempuan</div>
+      <div class="col" data-label="Kewarganegaraan">Korea Selatan</div>
+    </li>
+    <li class="table-row">
+      <div class="col" data-label="Nama">Lisa</div>
+      <div class="col" data-label="Tipe">Sutradara</div>
+      <div class="col" data-label="Jenis Kelamin">Perempuan</div>
+      <div class="col" data-label="Kewarganegaraan">Korea Selatan</div>
+    </li>
+    <li class="table-row">
+      <div class="col" data-label="Nama">Jennie</div>
+      <div class="col" data-label="Tipe">Sutradara, Penulis, Pemain</div>
+      <div class="col" data-label="Jenis Kelamin">Perempuan</div>
+      <div class="col" data-label="Kewarganegaraan">Korea Selatan</div>
+    </li>
+  </ul>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var selectTipe = document.getElementById("tipe");
+      var rows = document.querySelectorAll(".table-row");
+      
+      selectTipe.addEventListener("change", function() {
+        var selectedValue = selectTipe.value;
+
+        rows.forEach(function(row) {
+          var colTipe = row.querySelector(".col:nth-child(2)").textContent.trim();
+          var colTipeArray = colTipe.split(',').map(function(item) {
+            return item.trim();
+          });
+
+          if (selectedValue === "Semua" || colTipeArray.includes(selectedValue)) {
+            row.style.display = "flex";
+          } else {
+            row.style.display = "none";
+          }
+        });
+      });
+    });
+    </script>
+</div>
 {% endblock content %}
