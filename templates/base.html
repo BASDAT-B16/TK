@@ -8,6 +8,79 @@
             content="width=device-width, initial-scale=1.0"
         />
         {% block meta %}
+        <title>Pacilflix</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+          /* Custom CSS untuk mengatur tampilan navbar */
+          .navbar-custom {
+            background-color: #007bff; /* Warna latar belakang navbar */
+          }
+          .navbar-custom .navbar-brand,
+          .navbar-custom .navbar-text {
+            color: #ffffff; /* Warna teks navbar */
+          }
+          .navbar-custom .navbar-nav .nav-link {
+            color: #ffffff;
+          }
+          .navbar-custom .navbar-nav .nav-link:hover {
+            color: #ffffff;
+          }
+        </style>
+      <nav class="navbar navbar-expand-lg navbar-custom">
+        <a class="navbar-brand" href="#">Pacilflix</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'trailer:show_trailer' %}">Trailer Tayangan</a>
+            </li>
+            <li class="nav-item" id="login-nav-item">
+              <a class="nav-link" href="#">Login</a>
+            </li>
+            <li class="nav-item" id="user-nav-item" style="display: none;">
+              <a class="nav-link" href="{% url 'tayangan:show_tayangan' %}">Daftar Tayangan</a>
+            </li>
+            <li class="nav-item" id="user-nav-item" style="display: none;">
+              <a class="nav-link" href="{% url 'daftarkontributor:show_daftarkontributor' %}">Daftar Kontributor</a>
+            </li>
+            <li class="nav-item" id="user-nav-item" style="display: none;">
+              <a class="nav-link" href="#">Kelola Daftar Favorit</a>
+            </li>
+            <li class="nav-item" id="user-nav-item" style="display: none;">
+              <a class="nav-link" href="#">Kelola Daftar Unduhan</a>
+            </li>
+            <li class="nav-item" id="user-nav-item" style="display: none;">
+              <a class="nav-link" href="{% url 'langganan:show_langganan' %}">Kelola Langganan</a>
+            </li>
+            <li class="nav-item" id="user-nav-item" style="display: none;">
+              <a class="nav-link" href="#">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <script>
+        // Fungsi untuk mengatur tampilan navbar berdasarkan status login
+        function setNavbarVisibility(isLoggedIn) {
+          if (isLoggedIn) {
+            // Jika sudah login, tampilkan elemen navbar untuk pengguna
+            document.querySelectorAll('#user-nav-item').forEach(item => item.style.display = 'block');
+            document.getElementById('login-nav-item').style.display = 'none';
+          } else {
+            // Jika belum login, tampilkan hanya elemen navbar untuk pengunjung
+            document.getElementById('login-nav-item').style.display = 'block';
+            document.querySelectorAll('#user-nav-item').forEach(item => item.style.display = 'none');
+          }
+        }
+      
+        // Contoh panggilan fungsi setNavbarVisibility dengan parameter isLoggedIn true (pengguna sudah login)
+        setNavbarVisibility(true);
+      </script>
         {% endblock meta %}
     </head>
 

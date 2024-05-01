@@ -1,139 +1,64 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<style>
-  body {
-    font-family: 'lato', sans-serif;
-  }
-  .container {
-    max-width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-  
-  h2 {
-    font-size: 26px;
-    margin: 20px 0;
-    text-align: center;
-  }
-  h2 small {
-    font-size: 0.5em;
-  }
-  
-  label {
-    margin-right: 10px;
-  }
-
-  select {
-    width: 150px;
-  }
-
-  .responsive-table {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0;
-    list-style: none;
-  }
-
-  .responsive-table .table-header {
-    background-color: #95A5A6;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    border-radius: 3px;
-    padding: 15px;
-    width: 100%;
-    margin-bottom: 10px;
-    display: flex;
-  }
-
-  .responsive-table .table-header .col {
-    flex: 1;
-    text-align: center;
-  }
-
-  .responsive-table .table-row {
-    background-color: #ffffff;
-    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
-    border-radius: 3px;
-    width: 100%;
-    margin-bottom: 20px;
-    padding: 15px;
-    display: flex;
-  }
-
-  .responsive-table .col {
-    text-align: center;
-    flex: 1;
-  }
-
-  .dropdown {
-    margin-top: 20px;
-    text-align: center;
-  }
-
-  .btn-beli {
-    margin-top: 20px;
-    text-align: center;
-  }
-
-  @media all and (min-width: 768px) {
-    .responsive-table .table-row {
-      width: 100%;
-    }
-  }
-
-  @media all and (min-width: 1200px) {
-    .responsive-table .table-row {
-      width: 100%;
-    }
-  }
-</style>
-
 <div class="container">
-  <h2>Halaman Beli</h2>
-  <div class="container">
-    <div> Informasi paket yang ingin dibeli:</div>
-  <ul class="responsive-table">
-    <li class="table-header">
-      <div class="col"><span style="font-weight: bold;">Nama</span></div>
-      <div class="col"><span style="font-weight: bold;">Harga</span></div>
-      <div class="col"><span style="font-weight: bold;">Resolusi Layar</span></div>
-      <div class="col"><span style="font-weight: bold;">Dukungan Perangkat</span></div>
-    </li>
-    <li class="table-row">
-      <div class="col" data-label="Nama">Premium</div>
-      <div class="col" data-label="Tipe">120000</div>
-      <div class="col" data-label="Jenis Kelamin">720p</div>
-      <div class="col" data-label="Kewarganegaraan">Mobile Phone</div>
-    </li>
-  </ul>
-  <div class="dropdown">
-    <label for="metode-pembayaran">Pilih Metode Pembayaran:</label>
-    <select id="metode-pembayaran">
-      <option value="Transfer Bank">Transfer Bank</option>
-      <option value="Kartu Kredit">Kartu Kredit</option>
-      <option value="E-Wallet">E-Wallet</option>
-    </select>
+  <h2 class="mt-4 mb-4">Halaman Beli</h2>
+  <div class="row justify-content-center">
+    <div class="card w-100">
+      <div class="card-header bg-primary text-white">
+        <center><strong>Informasi paket yang ingin dibeli</strong></center>
+      </div>
+      <div class="table-responsive">
+        <table class="table w-100">
+          <tbody>
+            <tr>
+              <td><strong>Nama:</strong></td>
+              <td>Bronze</td>
+            </tr>
+            <tr>
+              <td><strong>Harga:</strong></td>
+              <td>120000</td>
+            </tr>
+            <tr>
+              <td><strong>Resolusi Layar:</strong></td>
+              <td>720p</td>
+            </tr>
+            <tr>
+              <td><strong>Dukungan Perangkat:</strong></td>
+              <td>Mobile Phone</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div class="btn-beli">
-    <button class="bayar-button"n>Bayar</button>
+  <div class="row mt-4 justify-content-center">
+    <div class="form-group w-100"> <!-- Menambahkan kelas w-100 untuk mengisi lebar halaman -->
+      <label for="metode-pembayaran">Pilih Metode Pembayaran:</label>
+      <select class="form-control w-100" id="metode-pembayaran"> <!-- Menambahkan kelas w-100 untuk mengisi lebar halaman -->
+        <option value="Transfer Bank">Transfer Bank</option>
+        <option value="Kartu Kredit">Kartu Kredit</option>
+        <option value="E-Wallet">E-Wallet</option>
+      </select>
+    </div>
+      <div class="text-center"> <!-- Menggunakan text-center untuk membuat button berada di tengah -->
+        <button class="btn btn-primary bayar-button">Bayar</button>
+      </div>
+    </div>
   </div>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      var beliButtons = document.querySelectorAll(".bayar-button");
-  
-      beliButtons.forEach(function(button) {
-        button.addEventListener("click", function() {
-          var currentPath = window.location.pathname;
-          var bayarPath = currentPath.replace("beli/", "");
-          window.location.href = bayarPath;
-        });
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var beliButtons = document.querySelectorAll(".bayar-button");
+
+    beliButtons.forEach(function(button) {
+      button.addEventListener("click", function() {
+        var currentPath = window.location.pathname;
+        var bayarPath = currentPath.replace("beli/", "");
+        window.location.href = bayarPath;
       });
     });
-  </script>
-  
-</div>
+  });
+</script>
 {% endblock content %}
