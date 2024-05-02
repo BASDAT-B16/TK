@@ -55,24 +55,38 @@
 </head>
 <body>
     <div class="register-container">
-        <h2>Register to PacilFlix</h2>
-        <form action="" method="post">
+        <h1>Register</h1>  
+
+        <form method="post">
             {% csrf_token %}
-            <input type="text" name="username" placeholder="Username" required autofocus>
-            <input type="password" name="password" placeholder="Password" required>
-            <select name="country" required>
-                <option value="" disabled selected>Select Country</option>
-                <option value="Indonesia">Indonesia</option>
-                <option value="Malaysia">Malaysia</option>
-                <option value="Vietnam">Vietnam</option>
-                <option value="Thailand">Thailand</option>
-                <option value="Timor Leste">Timor Leste</option>
-                <option value="Myanmar">Myanmar</option>
-                <option value="Singapore">Singapore</option>
-                <option value="India">India</option>
-            </select>
-            <button type="submit">Register</button>
-        </form>
+            <div class="row">
+                    <div class="col-6">
+                        <label for="username" class="form-label">Username</label>
+                        {{form.username}}
+                    </div>
+                    <div class="col-6">
+                        <label for="inputcountry" class="form-label">Country</label>
+                        {{form.country}}
+                    </div>
+                    <div class="col-12">
+                        <label for="password" class="form-label">Password</label>
+                        {{form.password1}}
+                    </div>
+                    <div class="col-12">
+                        <label for="confirm password" class="form-label">Confirm password</label>
+                        {{form.password2}}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Create User</button>
+            </form>
+
+    {% if messages %}  
+        <ul>   
+            {% for message in messages %}  
+                <li>{{ message }}</li>  
+            {% endfor %}  
+        </ul>   
+    {% endif %}
     </div>
 </body>
 </html>
