@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+  <h2 class="mt-4 mb-4 text-center"> Halaman Episode</h2>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-4">
+        <div class="card-header bg-primary text-white text-center font-weight-bold">
+          Hyunwoo Sakit
+        </div>
+    </div>
+            <div class="mt-3">
+            <h5 class="card-title">Episode Lainnya:</h5>
+            <ul class="list-group">
+                <li class="list-group-item"><a href="<link_episode_1>" class="btn btn-primary">Episode 1</a></li>
+                <li class="list-group-item"><a href="<link_episode_2>" class="btn btn-primary">Episode 2</a></li>
+            </ul>
+        </div>
+        <div class="mt-3"></div>
+        <div class="btn-group" role="group" aria-label="Tombol Aksi">
+            <button type="button" class="btn btn-primary">Tonton</button>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th scope="row">Sinopsis Episode</th>
+                        <td class="text-center">Hyunwoo...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Durasi Episode</th>
+                        <td class="text-center">71 menit</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">URL Episode</th>
+                        <td class="text-center">qot-1.com</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Tanggal Rilis Episode</th>
+                        <td class="text-center">2 Maret 2024</td>
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock content %}
