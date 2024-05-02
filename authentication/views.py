@@ -4,11 +4,15 @@ from django.contrib.auth.forms import *
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
+from .forms import *
 import datetime
+
 
 def show_authentication(request):
     return render(request, "authentication.html")
 
+@csrf_exempt
 def login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -16,7 +20,7 @@ def login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            response = HttpResponseRedirect(reverse("main:show_stock")) 
+            response = HttpResponseRedirect(reverse("tayangan:show_tayangan")) 
             response.set_cookie('last_login', str(datetime.datetime.now()))
             return response
         else:
@@ -24,11 +28,12 @@ def login(request):
     context = {}
     return render(request, 'login.html', context)
 
+@csrf_exempt
 def register(request):
-    form = UserCreationForm()
+    form = RegisterForm()
 
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Your account has been successfully created!')
