@@ -1,17 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
 <div class="container">
-  <h2 class="mt-4 mb-4 text-center">Daftar Tayangan</h2>
+  <h2 class="mt-4 mb-4 text-center">Daftar {{jenis}}</h2>
 
   <div class="row mb-4 justify-content-center">
     <div class="col-md-8">
-      <input type="text" id="searchInput" class="form-control" placeholder="Cari Tayangan Berdasarkan Judul">
+      <input type="text" id="searchInput" class="form-control" placeholder="Cari {{jenis}} Berdasarkan Judul">
     </div>
     <div class="col-md-4">
       <div class="input-group">
-        <a href="{% url 'trailer:show_result' %}" class="btn btn-primary" id="searchButton">Cari</a>
+        <button class="btn btn-primary" id="searchButton">Cari</button>
       </div>
     </div>
   </div>
@@ -20,58 +21,48 @@
     <div class="col-md-12">
       <div class="card mb-4">
         <div class="card-header bg-primary text-white text-center font-weight-bold">
-          10 Tayangan Terbaik Minggu Ini
+          10 {{jenis}} Terbaik Minggu Ini
         </div>
         <div class="card-body">
-            <div class="row mb-4 justify-content-center">
-                <div class="col-md-4">
-                    <select id="tipe" class="form-control">
-                        <option value="Global">Global</option>
-                        <option value="Local">Sutradara</option>
-                    </select>
-                </div>
+          <div class="row mb-4 justify-content-center">
+            <div class="col-md-4">
+              <select id="tipe" class="form-control">
+                <option value="Global">Global</option>
+                <option value="Local">Sutradara</option>
+              </select>
             </div>
+          </div>
           <div class="table-responsive">
             <table class="table table-bordered">
               <thead>
                 <tr>
-                    <th scope="col" style="text-align: center; vertical-align: middle;">Peringkat</th>
-                    <th scope="col" style="text-align: center; vertical-align: middle;">Judul</th>
-                    <th scope="col" style="text-align: center; vertical-align: middle;">Sinopsis Trailer</th>
-                    <th scope="col" style="text-align: center; vertical-align: middle;">URL Trailer</th>
-                    <th scope="col" style="text-align: center; vertical-align: middle;">Tanggal Rilis Trailer</th>
-                    <th scope="col" style="text-align: center; vertical-align: middle;">Total View 7 Hari Terakhir</th>
-                    <th scope="col" style="text-align: center; vertical-align: middle;">Lihat</th>
+                  <th scope="col" style="text-align: center; vertical-align: middle;">Peringkat</th>
+                  <th scope="col" style="text-align: center; vertical-align: middle;">Judul</th>
+                  <th scope="col" style="text-align: center; vertical-align: middle;">Sinopsis Trailer</th>
+                  <th scope="col" style="text-align: center; vertical-align: middle;">URL Trailer</th>
+                  <th scope="col" style="text-align: center; vertical-align: middle;">Tanggal Rilis Trailer</th>
+                  <th scope="col" style="text-align: center; vertical-align: middle;">Total View 7 Hari Terakhir</th>
+                  {% if request.COOKIES.is_authenticated %}
+                  <th scope="col" style="text-align: center; vertical-align: middle;">Lihat</th>
+                  {% endif %}
                 </tr>
               </thead>
               <tbody>
+                {% for tayangan in tayangan_terbaik %}
                 <tr>
-                    <td class="text-center">1</td>
-                    <td class="text-center">Queen of Tears</td>
-                    <td class="text-center">Menceritakan tentang sepasang kekasih</td>
-                    <td class="text-center">queenoftearstrailer.com</td>
-                    <td class="text-center">4 Januari 2024</td>
-                    <td class="text-center">100044</td>
-                    <td class="text-center"><button class="btn btn-primary text-white">Detail</button></td>
+                  <td class="text-center">{{tayangan.peringkat}}</td>
+                  <td class="text-center">{{tayangan.judul}}</td>
+                  <td class="text-center">{{tayangan.sinopsis}}</td>
+                  <td class="text-center">{{tayangan.url_video_trailer}}</td>
+                  <td class="text-center">{{tayangan.release_date_trailer}}</td>
+                  <td class="text-center">{{tayangan.total_view}}</td>
+                  {% if request.COOKIES.is_authenticated %}
+                  <td class="text-center">
+                    <a class="btn btn-primary text-white" href="/tayangan/detail-{{tayangan.jenis}}/{{tayangan.id}}">Detail</a>
+                  </td>
+                  {% endif %}
                 </tr>
-                <tr>
-                    <td class="text-center">2</td>
-                    <td class="text-center">Crash Landing On You</td>
-                    <td class="text-center">Bercerita seorang yang menyukai piano</td>
-                    <td class="text-center">crashlandingonyoutrailer.com</td>
-                    <td class="text-center">2 Agustus 2019</td>
-                    <td class="text-center">32434</td>
-                    <td class="text-center"><button class="btn btn-primary text-white">Detail</button></td>
-                </tr>
-                <tr>
-                    <td class="text-center">3</td>
-                    <td class="text-center">Minion 4</td>
-                    <td class="text-center">Gru yang sedang kelalahan</td>
-                    <td class="text-center">minion4trailer.com</td>
-                    <td class="text-center">8 Maret 2024</td>
-                    <td class="text-center">1231</td>
-                    <td class="text-center"><a href="{% url 'tayangan:show_film' %}" class="btn btn-primary">Detail</a></td>
-                  </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>
@@ -91,21 +82,29 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                    <th scope="col" style="text-align: center; vertical-align: middle;">Judul</th>
-                    <th scope="col" style="text-align: center; vertical-align: middle;">Sinopsis Trailer</th>
-                    <th scope="col" style="text-align: center; vertical-align: middle;">URL Trailer</th>
-                    <th scope="col" style="text-align: center; vertical-align: middle;">Tanggal Rilis Trailer</th>
-                    <th scope="col" style="text-align: center; vertical-align: middle;">Lihat</th>
+                  <th scope="col" style="text-align: center; vertical-align: middle;">Judul</th>
+                  <th scope="col" style="text-align: center; vertical-align: middle;">Sinopsis Trailer</th>
+                  <th scope="col" style="text-align: center; vertical-align: middle;">URL Trailer</th>
+                  <th scope="col" style="text-align: center; vertical-align: middle;">Tanggal Rilis Trailer</th>
+                  {% if request.COOKIES.is_authenticated %}
+                  <th scope="col" style="text-align: center; vertical-align: middle;">Lihat</th>
+                  {% endif %}
                 </tr>
               </thead>
               <tbody>
+                {% for film in films %}
                 <tr>
-                    <td class="text-center">Minion 4</td>
-                    <td class="text-center">Gru yang sedang kelalahan</td>
-                    <td class="text-center">minion4trailer.com</td>
-                    <td class="text-center">8 Maret 2024</td>
-                    <td class="text-center"><a href="{% url 'tayangan:show_film' %}" class="btn btn-primary">Detail</a></td>
-                  </tr>
+                  <td class="text-center">{{film.judul}}</td>
+                  <td class="text-center">{{film.sinopsis}}</td>
+                  <td class="text-center">{{film.url_video_trailer}}</td>
+                  <td class="text-center">{{film.release_date_trailer}}</td>
+                  {% if request.COOKIES.is_authenticated %}
+                  <td class="text-center">
+                    <a href="/tayangan/detail-film/{{film.id}}" class="btn btn-primary">Detail</a>
+                  </td>
+                  {% endif %}
+                </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>
@@ -125,28 +124,29 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                    <th scope="col" style="text-align: center; vertical-align: middle;">Judul</th>
-                    <th scope="col" style="text-align: center; vertical-align: middle;">Sinopsis Trailer</th>
-                    <th scope="col" style="text-align: center; vertical-align: middle;">URL Trailer</th>
-                    <th scope="col" style="text-align: center; vertical-align: middle;">Tanggal Rilis Trailer</th>
-                    <th scope="col" style="text-align: center; vertical-align: middle;">Lihat</th>
+                  <th scope="col" style="text-align: center; vertical-align: middle;">Judul</th>
+                  <th scope="col" style="text-align: center; vertical-align: middle;">Sinopsis Trailer</th>
+                  <th scope="col" style="text-align: center; vertical-align: middle;">URL Trailer</th>
+                  <th scope="col" style="text-align: center; vertical-align: middle;">Tanggal Rilis Trailer</th>
+                  {% if request.COOKIES.is_authenticated %}
+                  <th scope="col" style="text-align: center; vertical-align: middle;">Lihat</th>
+                  {% endif %}
                 </tr>
               </thead>
               <tbody>
+                {% for seri in series %}
                 <tr>
-                    <td class="text-center">Queen of Tears</td>
-                    <td class="text-center">Menceritakan tentang sepasang kekasih</td>
-                    <td class="text-center">queenoftearstrailer.com</td>
-                    <td class="text-center">4 Januari 2024</td>
-                    <td class="text-center"><button class="btn btn-primary text-white">Detail</button></td>
+                  <td class="text-center">{{seri.judul}}</td>
+                  <td class="text-center">{{seri.sinopsis}}</td>
+                  <td class="text-center">{{seri.url_video_trailer}}</td>
+                  <td class="text-center">{{seri.release_date_trailer}}</td>
+                  {% if request.COOKIES.is_authenticated %}
+                  <td class="text-center">
+                    <a href="/tayangan/detail-series/{{seri.id}}" class="btn btn-primary text-white">Detail</a>
+                  </td>
+                  {% endif %}
                 </tr>
-                <tr>
-                    <td class="text-center">Crash Landing On You</td>
-                    <td class="text-center">Bercerita seorang yang menyukai piano</td>
-                    <td class="text-center">crashlandingonyoutrailer.com</td>
-                    <td class="text-center">2 Agustus 2019</td>
-                    <td class="text-center"><button class="btn btn-primary text-white">Detail</button></td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>
@@ -156,4 +156,9 @@
   </div>
 
 
-{% endblock content %}
+  {% endblock content %}
+
+  {% block script %}
+  <script src='{% static "js/tayangan.js" %}' type='module'></script>
+
+  {% endblock script %}
