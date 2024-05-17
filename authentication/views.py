@@ -7,6 +7,9 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from .forms import *
 import datetime
+from pacilflix.database_manager import DatabaseManager
+import authentication.queries as queries
+
 
 
 def show_authentication(request):
@@ -17,26 +20,58 @@ def login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
+
+        try:
+            cursor = DatabaseManager.get_dict_cursor()
+            cursor.execute(queries.LOGIN, [username, password])
+            user = cursor.fetchone()
+        except Exception as e:
+            DatabaseManager.rollback()
+            print(e)
+            messages.error(
+                request, 'Sorry, something went wrong. Please try again later.')
+
         if user is not None:
-            login(request, user)
-            response = HttpResponseRedirect(reverse("tayangan:show_tayangan")) 
-            response.set_cookie('last_login', str(datetime.datetime.now()))
+            response = HttpResponseRedirect(reverse("tayangan:show_tayangan"))
+            response.set_cookie('is_authenticated', True)
+            response.set_cookie('username', username)
             return response
         else:
-            messages.info(request, 'Sorry, incorrect username or password. Please try again.')
+            messages.info(
+                request, 'Sorry, incorrect username or password. Please try again.')
+
     context = {}
     return render(request, 'login.html', context)
 
 @csrf_exempt
 def register(request):
-    form = RegisterForm()
-
     if request.method == "POST":
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Your account has been successfully created!')
-            return redirect('authentication:login')
-    context = {'form':form}
+        username = request.POST.get('username')
+        password = request.POST.get('password1')
+        negara_asal = request.POST.get('country')
+
+        try:
+            cursor = DatabaseManager.get_dict_cursor()
+            cursor.execute(queries.REGISTER, [username, password, negara_asal])
+            DatabaseManager.commit()
+        except Exception as e:
+            DatabaseManager.rollback()
+            print(e)
+            messages.error(
+                request, 'Sorry, something went wrong. Please try again later.')
+            return redirect('authentication:register')
+        
+        messages.success(
+            request, 'Your account has been successfully created!')
+        return redirect('authentication:login')
+    
+    form = RegisterForm()
+    context = {'form': form}
     return render(request, 'register.html', context)
+
+@csrf_exempt
+def logout(request):
+    response = HttpResponseRedirect(reverse("authentication:show_authentication"))
+    response.delete_cookie('is_authenticated')
+    response.delete_cookie('username')
+    return response
