@@ -11,7 +11,7 @@
     </div>
     <div class="col-md-4">
       <div class="input-group">
-        <a href="{% url 'trailer:show_result' %}" class="btn btn-primary" id="searchButton">Cari</a>
+        <button class="btn btn-primary" id="searchButton">Cari</button>
       </div>
     </div>
   </div>
@@ -31,16 +31,25 @@
                     <th scope="col" style="text-align: center; vertical-align: middle;">Sinopsis Trailer</th>
                     <th scope="col" style="text-align: center; vertical-align: middle;">URL Trailer</th>
                     <th scope="col" style="text-align: center; vertical-align: middle;">Tanggal Rilis Trailer</th>
+                    {% if request.COOKIES.is_authenticated %}
                     <th scope="col" style="text-align: center; vertical-align: middle;">Lihat</th>
+                    {% endif %}
                 </tr>
               </thead>
               <tbody>
+                {% for t in tayangan %}
                 <tr>
-                    <td class="text-center">Queen of Tears</td>
-                    <td class="text-center">Menceritakan tentang sepasang kekasih</td>
-                    <td class="text-center">queenoftearstrailer.com</td>
-                    <td class="text-center">4 Januari 2024</td>
-                </tr><td class="text-center"><button class="btn btn-primary text-white">Detail</button></td>
+                    <td class="text-center">{{t.judul}}</td>
+                    <td class="text-center">{{t.sinopsis}}</td>
+                    <td class="text-center">{{t.url_video_trailer}}</td>
+                    <td class="text-center">{{t.release_date_trailer}}</td>
+                    {% if request.COOKIES.is_authenticated %}
+                    <td class="text-center">
+                      <a class="btn btn-primary text-white" href="/tayangan/detail-{{t.jenis}}/{{t.id}}">Detail</a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>
@@ -51,3 +60,17 @@
 
 
 {% endblock content %}
+
+{% block script %}
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+
+    searchButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      const searchValue = searchInput.value;
+      window.location.href = `/tayangan/pencarian?q=${searchValue}`;
+    });
+  </script>
+
+  {% endblock script %}
