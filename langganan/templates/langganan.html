@@ -23,16 +23,24 @@
                   <th scope="col" class="text-center">Tanggal Akhir</th>
                 </tr>
               </thead>
+              {% if current_subscription %}
               <tbody>
                 <tr>
-                  <td class="text-center">Gold</td>
-                  <td class="text-center">300000</td>
-                  <td class="text-center">4k</td>
-                  <td class="text-center">Television</td>
-                  <td class="text-center">2 Februari 2024</td>
-                  <td class="text-center">2 Februari 2025</td>
+                  <td class="text-center">{{current_subscription.nama}}</td>
+                  <td class="text-center">Rp{{current_subscription.harga}}</td>
+                  <td class="text-center">{{current_subscription.resolusi_layar}}</td>
+                  <td class="text-center">{{current_subscription.dukungan_perangkat}}</td>
+                  <td class="text-center">{{current_subscription.start_date_time}}</td>
+                  <td class="text-center">{{current_subscription.end_date_time}}</td>
                 </tr>
               </tbody>
+              {% else %}
+              <tbody>
+                <tr class="text-center">
+                  <td colspan="6">Tidak ada paket yang aktif</td>
+                </tr>
+              </tbody>
+              {% endif %}
             </table>
           </div>
         </div>
@@ -59,27 +67,17 @@
                 </tr>
               </thead>
               <tbody>
+                {% for subscription in other_subscriptions %}
                 <tr>
-                  <td class="text-center">Bronze</td>
-                  <td class="text-center">120000</td>
-                  <td class="text-center">720p</td>
-                  <td class="text-center">Mobile Phone</td>
-                  <td class="text-center"><button class="btn btn-primary beli-button">Beli</button></td>
+                  <td class="text-center">{{subscription.nama}}</td>
+                  <td class="text-center">Rp{{subscription.harga}}</td>
+                  <td class="text-center">{{subscription.resolusi_layar}}</td>
+                  <td class="text-center">{{subscription.dukungan_perangkat}}</td>
+                  <td class="text-center">
+                    <a href="/langganan/beli?paket={{subscription.nama}}" class="btn btn-primary beli-button">Beli</a>
+                  </td>
                 </tr>
-                <tr>
-                  <td class="text-center">Silver</td>
-                  <td class="text-center">200000</td>
-                  <td class="text-center">1080p</td>
-                  <td class="text-center">Television</td>
-                  <td class="text-center"><button class="btn btn-primary beli-button">Beli</button></td>
-                </tr>
-                <tr>
-                  <td class="text-center">Gold</td>
-                  <td class="text-center">300000</td>
-                  <td class="text-center">4k</td>
-                  <td class="text-center">Personal Computer</td>
-                  <td class="text-center"><button class="btn btn-primary beli-button">Beli</button></td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>
@@ -108,22 +106,16 @@
                 </tr>
               </thead>
               <tbody>
+                {% for subscription in history_of_subscriptions %}
                 <tr>
-                  <td class="text-center">Silver</td>
-                  <td class="text-center">2 Februari 2022</td>
-                  <td class="text-center">2 Februari 2023</td>
-                  <td class="text-center">E-Wallet</td>
-                  <td class="text-center">2 Februari 2022</td>
-                  <td class="text-center">200000</td>
+                  <td class="text-center">{{subscription.nama_paket}}</td>
+                  <td class="text-center">{{subscription.start_date_time}}</td>
+                  <td class="text-center">{{subscription.end_date_time}}</td>
+                  <td class="text-center">{{subscription.metode_pembayaran}}</td>
+                  <td class="text-center">{{subscription.timestamp_pembayaran}}</td>
+                  <td class="text-center">Rp{{subscription.harga}}</td>
                 </tr>
-                <tr>
-                  <td class="text-center">Bronze</td>
-                  <td class="text-center">2 Februari 2023</td>
-                  <td class="text-center">2 Februari 2024</td>
-                  <td class="text-center">Kartu kredit</td>
-                  <td class="text-center">2 Februari 2024</td>
-                  <td class="text-center">120000</td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>
@@ -133,12 +125,12 @@
   </div>
 </div>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
+<!-- <script>
+  document.addEventListener("DOMContentLoaded", function () {
     var beliButtons = document.querySelectorAll(".beli-button");
 
-    beliButtons.forEach(function(button) {
-      button.addEventListener("click", function() {
+    beliButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
 
         var currentPath = window.location.pathname;
         var beliPath = currentPath + "beli/";
@@ -147,6 +139,6 @@
       });
     });
   });
-</script>
+</script> -->
 
 {% endblock content %}

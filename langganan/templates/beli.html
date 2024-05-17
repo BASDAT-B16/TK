@@ -13,19 +13,19 @@
           <tbody>
             <tr>
               <td><strong>Nama:</strong></td>
-              <td>Bronze</td>
+              <td>{{paket.nama}}</td>
             </tr>
             <tr>
               <td><strong>Harga:</strong></td>
-              <td>120000</td>
+              <td>Rp{{paket.harga}}</td>
             </tr>
             <tr>
               <td><strong>Resolusi Layar:</strong></td>
-              <td>720p</td>
+              <td>{{paket.resolusi_layar}}</td>
             </tr>
             <tr>
               <td><strong>Dukungan Perangkat:</strong></td>
-              <td>Mobile Phone</td>
+              <td>{{paket.dukungan_perangkat}}</td>
             </tr>
           </tbody>
         </table>
@@ -33,31 +33,45 @@
     </div>
   </div>
   <div class="row mt-4 justify-content-center">
-    <div class="form-group w-100"> <!-- Menambahkan kelas w-100 untuk mengisi lebar halaman -->
+    <div class="form-group w-100"> 
       <label for="metode-pembayaran">Pilih Metode Pembayaran:</label>
-      <select class="form-control w-100" id="metode-pembayaran"> <!-- Menambahkan kelas w-100 untuk mengisi lebar halaman -->
+      <select class="form-control w-100" id="metode-pembayaran">
         <option value="Transfer Bank">Transfer Bank</option>
         <option value="Kartu Kredit">Kartu Kredit</option>
         <option value="E-Wallet">E-Wallet</option>
       </select>
     </div>
-      <div class="text-center"> <!-- Menggunakan text-center untuk membuat button berada di tengah -->
-        <button class="btn btn-primary bayar-button">Bayar</button>
-      </div>
+    <div class="text-center">
+      <button class="btn btn-primary" id="bayar-button">Bayar</button>
     </div>
   </div>
 </div>
+</div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    var beliButtons = document.querySelectorAll(".bayar-button");
+  document.addEventListener("DOMContentLoaded", function () {
+    var beliButton = document.getElementById("bayar-button");
 
-    beliButtons.forEach(function(button) {
-      button.addEventListener("click", function() {
-        var currentPath = window.location.pathname;
-        var bayarPath = currentPath.replace("beli/", "");
-        window.location.href = bayarPath;
+    beliButton.addEventListener("click", async (e) => {
+      const namaPaket = "{{paket.nama}}";
+      const metodePembayaran = document.getElementById("metode-pembayaran").value;
+      let response = await fetch("/langganan/beli/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nama_paket: namaPaket,
+          metode_pembayaran: metodePembayaran,
+        }),
       });
+      let response_body = await response.json();
+      if (response.ok) {
+        alert(response_body.message);
+        window.location.href = "/langganan/";
+      } else {
+        alert(response_body.message);
+      }
     });
   });
 </script>
