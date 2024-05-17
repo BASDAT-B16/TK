@@ -13,10 +13,10 @@ def show_daftarkontributor(request):
         cursor = DatabaseManager.get_dict_cursor()
 
         if tipe in ['pemain', 'sutradara', 'penulis_skenario']:
-            cursor.execute(sql.SQL(daftarkontributor.queries.contributors_by_type).format(table=sql.Identifier(tipe)))
+            cursor.execute(sql.SQL(daftarkontributor.queries.contributors_by_type_query).format(table=sql.Identifier(tipe)))
         else:
             tipe = 'all'
-            cursor.execute(daftarkontributor.queries.contributors_all)
+            cursor.execute(daftarkontributor.queries.contributors_all_query)
 
         kontributor = cursor.fetchall()
         cursor.close()

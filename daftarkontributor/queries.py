@@ -1,4 +1,4 @@
-contributors_all = """
+contributors_all_query = """
   SELECT 
     CONTRIBUTORS.id, 
     CONTRIBUTORS.nama, 
@@ -13,7 +13,7 @@ contributors_all = """
 """
 
 
-contributors_by_type = """
+contributors_by_type_query = """
   SELECT 
     CONTRIBUTORS.id, 
     CONTRIBUTORS.nama, 
