@@ -27,3 +27,29 @@ history_of_subscriptions_query = '''
   JOIN PAKET  ON TRANSACTION.nama_paket = PAKET.nama
   WHERE TRANSACTION.username = %s;
 '''
+
+update_subscription_query = '''
+  UPDATE TRANSACTION
+  SET 
+    start_date_time = NOW(),
+    end_date_time = NOW() + INTERVAL '1 month',
+    metode_pembayaran = %(metode_pembayaran)s,
+    nama_paket = %(nama_paket)s
+  WHERE username = %(username)s AND end_date_time > NOW();
+'''
+
+create_transaction_query = '''
+  INSERT INTO TRANSACTION (username, start_date_time, end_date_time, nama_paket, metode_pembayaran, timestamp_pembayaran)
+  VALUES (%s, NOW(), NOW() + INTERVAL '1 month', %s, %s, NOW());
+'''
+
+get_paket_query = '''
+  SELECT *
+  FROM PAKET P
+  JOIN (
+    SELECT nama_paket, string_agg(dukungan_perangkat, ', ') AS dukungan_perangkat
+    FROM DUKUNGAN_PERANGKAT
+    GROUP BY nama_paket
+  ) AS D ON P.nama = D.nama_paket
+  WHERE P.nama = %s;
+'''
