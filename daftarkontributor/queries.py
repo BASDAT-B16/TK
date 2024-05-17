@@ -1,4 +1,4 @@
-GET_CONTRIBUTORS_ALL = """
+contributors_all = """
   SELECT 
     CONTRIBUTORS.id, 
     CONTRIBUTORS.nama, 
@@ -13,7 +13,7 @@ GET_CONTRIBUTORS_ALL = """
 """
 
 
-GET_CONTRIBUTORS_TIPE = """
+contributors_by_type = """
   SELECT 
     CONTRIBUTORS.id, 
     CONTRIBUTORS.nama, 
