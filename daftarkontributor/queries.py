@@ -1,28 +1,29 @@
 GET_CONTRIBUTORS_ALL = """
   SELECT 
-    id, 
-    nama, 
-    kewarganegaraan, 
-    IF(C.jenis_kelamin = 0, 'Laki-laki', 'Perempuan') AS jenis_kelamin,
+    CONTRIBUTORS.id, 
+    CONTRIBUTORS.nama, 
+    CONTRIBUTORS.kewarganegaraan, 
+    CASE WHEN CONTRIBUTORS.jenis_kelamin = 0 THEN 'Laki-laki' ELSE 'Perempuan' END AS jenis_kelamin,
     CONCAT_WS(', ', 
-      IF(C.id IN (SELECT P.id FROM PEMAIN P), 'pemain', NULL),
-      IF(C.id IN (SELECT S.id FROM SUTRADARA S), 'sutradara', NULL),
-      IF(C.id IN (SELECT PS.id FROM PENULIS_SKENARIO PS), 'penulis_skenario', NULL)
+      CASE WHEN CONTRIBUTORS.id IN (SELECT P.id FROM PEMAIN P) THEN 'pemain' ELSE NULL END,
+      CASE WHEN CONTRIBUTORS.id IN (SELECT S.id FROM SUTRADARA S) THEN 'sutradara' ELSE NULL END,
+      CASE WHEN CONTRIBUTORS.id IN (SELECT PS.id FROM PENULIS_SKENARIO PS) THEN 'penulis_skenario' ELSE NULL END
     ) AS tipe
-  FROM CONTRIBUTORS C;
+  FROM CONTRIBUTORS
 """
 
-GET_CONTRIBUTORS_ALL = """
+
+GET_CONTRIBUTORS_TIPE = """
   SELECT 
-    id, 
-    nama, 
-    kewarganegaraan, 
-    IF(C.jenis_kelamin = 0, 'Laki-laki', 'Perempuan') AS jenis_kelamin,
+    CONTRIBUTORS.id, 
+    CONTRIBUTORS.nama, 
+    CONTRIBUTORS.kewarganegaraan, 
+    CASE WHEN CONTRIBUTORS.jenis_kelamin = 0 THEN 'Laki-laki' ELSE 'Perempuan' END AS jenis_kelamin,
     CONCAT_WS(', ', 
-      IF(C.id IN (SELECT P.id FROM PEMAIN P), 'pemain', NULL),
-      IF(C.id IN (SELECT S.id FROM SUTRADARA S), 'sutradara', NULL),
-      IF(C.id IN (SELECT PS.id FROM PENULIS_SKENARIO PS), 'penulis_skenario', NULL)
+      CASE WHEN CONTRIBUTORS.id IN (SELECT P.id FROM PEMAIN P) THEN 'pemain' ELSE NULL END,
+      CASE WHEN CONTRIBUTORS.id IN (SELECT S.id FROM SUTRADARA S) THEN 'sutradara' ELSE NULL END,
+      CASE WHEN CONTRIBUTORS.id IN (SELECT PS.id FROM PENULIS_SKENARIO PS) THEN 'penulis_skenario' ELSE NULL END
     ) AS tipe
-  FROM CONTRIBUTORS C;
-  JOIN {table} ON C.id = {table}.id;
+  FROM CONTRIBUTORS
+  JOIN {table} ON CONTRIBUTORS.id = {table}.id;
 """
