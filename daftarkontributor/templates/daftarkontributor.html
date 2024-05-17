@@ -25,30 +25,14 @@
         </tr>
       </thead>
       <tbody>
+        {% for individu in kontributor %}
         <tr>
-          <td class="text-center">Rose</td>
+          <td class="text-center">{{individu.nama}}</td>
           <td class="text-center">Sutradara</td>
-          <td class="text-center">Perempuan</td>
-          <td class="text-center">Korea Selatan</td>
+          <td class="text-center">{{individu.jenis_kelamin}}</td>
+          <td class="text-center">{{individu.kewarganegaraan}}</td>
         </tr>
-        <tr>
-          <td class="text-center">Jisoo</td>
-          <td class="text-center">Penulis</td>
-          <td class="text-center">Perempuan</td>
-          <td class="text-center">Korea Selatan</td>
-        </tr>
-        <tr>
-          <td class="text-center">Lisa</td>
-          <td class="text-center">Sutradara</td>
-          <td class="text-center">Perempuan</td>
-          <td class="text-center">Korea Selatan</td>
-        </tr>
-        <tr>
-          <td class="text-center">Jennie</td>
-          <td class="text-center">Sutradara, Penulis, Pemain</td>
-          <td class="text-center">Perempuan</td>
-          <td class="text-center">Korea Selatan</td>
-        </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
