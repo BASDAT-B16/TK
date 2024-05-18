@@ -26,9 +26,10 @@
         <div class="card-body">
           <div class="row mb-4 justify-content-center">
             <div class="col-md-4">
-              <select id="tipe" class="form-control">
-                <option value="Global">Global</option>
-                <option value="Local">Sutradara</option>
+              <select id="range" class="form-control">
+                <option value="Filter by" {% if range == "Global" %}selected{% endif %}>Filter by</option>
+                <option value="Global" {% if range == "Global" %}selected{% endif %}>Global</option>
+                <option value="Lokal" {% if range == "Lokal" %}selected{% endif %}>Lokal</option>
               </select>
             </div>
           </div>
@@ -159,6 +160,21 @@
   {% endblock content %}
 
   {% block script %}
-  <script src='{% static "js/tayangan.js" %}' type='module'></script>
-
+  <script>
+  const searchInput = document.getElementById('searchInput');
+  const searchButton = document.getElementById('searchButton');
+  
+  searchButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    const searchValue = searchInput.value;
+    window.location.href = `/tayangan/pencarian?q=${searchValue}`;
+  });
+  
+  const selectRange = document.getElementById('range');
+  selectRange.addEventListener('change', function () {
+    const selectedRange = selectRange.value;
+    window.location.href = `?range=${selectedRange}`;
+  });
+  
+  </script>
   {% endblock script %}

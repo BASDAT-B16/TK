@@ -37,6 +37,87 @@ GET_TAYANGAN_TERBAIK = """
   LIMIT 10;
 """
 
+GET_TAYANGAN_TERBAIK_LOCAL_LOGIN = """
+  SELECT *
+  FROM (
+    SELECT F.id_tayangan, COALESCE(COUNT(start_date_time),0) AS total_view, \'film\' AS jenis
+    FROM FILM F 
+    LEFT OUTER JOIN (
+      SELECT RN.id_tayangan, start_date_time, end_date_time
+      FROM RIWAYAT_NONTON RN
+      JOIN FILM F2 ON F2.id_tayangan = RN.id_tayangan
+      WHERE 
+        EXTRACT(EPOCH FROM end_date_time - start_date_time) >= 0.7 * F2.durasi_film * 60
+        AND EXTRACT(DAY FROM (NOW() - end_date_time)) <= 7
+    ) AS Z ON Z.id_tayangan = F.id_tayangan 
+    GROUP BY F.id_tayangan
+
+    UNION
+
+    SELECT S.id_tayangan, COALESCE(COUNT(start_date_time),0) AS total_view, \'series\' AS jenis
+    FROM SERIES S
+    LEFT OUTER JOIN (
+      SELECT RN.id_tayangan, start_date_time, end_date_time
+      FROM RIWAYAT_NONTON RN
+      JOIN (
+        SELECT id_tayangan, SUM(E.durasi) as total_durasi_series
+        FROM SERIES S
+        JOIN EPISODE E ON E.id_series = S.id_tayangan
+        GROUP BY id_tayangan
+      ) AS S2 ON S2.id_tayangan = RN.id_tayangan
+      WHERE 
+        EXTRACT(EPOCH FROM end_date_time - start_date_time) >= 0.7 * S2.total_durasi_series * 60
+        AND EXTRACT(DAY FROM (NOW() - end_date_time)) <= 7
+    ) RN ON S.id_tayangan = RN.id_tayangan
+    GROUP BY S.id_tayangan
+  ) AS V
+  JOIN TAYANGAN T ON V.id_tayangan = T.id
+  JOIN PENGGUNA P ON LOWER(P.negara_asal) = LOWER(T.asal_negara)
+  WHERE P.username = %s
+  ORDER BY V.total_view DESC
+  LIMIT 10;
+"""
+
+GET_TAYANGAN_TERBAIK_LOCAL_GUEST = """
+  SELECT *
+  FROM (
+    SELECT F.id_tayangan, COALESCE(COUNT(start_date_time),0) AS total_view, \'film\' AS jenis
+    FROM FILM F 
+    LEFT OUTER JOIN (
+      SELECT RN.id_tayangan, start_date_time, end_date_time
+      FROM RIWAYAT_NONTON RN
+      JOIN FILM F2 ON F2.id_tayangan = RN.id_tayangan
+      WHERE 
+        EXTRACT(EPOCH FROM end_date_time - start_date_time) >= 0.7 * F2.durasi_film * 60
+        AND EXTRACT(DAY FROM (NOW() - end_date_time)) <= 7
+    ) AS Z ON Z.id_tayangan = F.id_tayangan 
+    GROUP BY F.id_tayangan
+
+    UNION
+
+    SELECT S.id_tayangan, COALESCE(COUNT(start_date_time),0) AS total_view, \'series\' AS jenis
+    FROM SERIES S
+    LEFT OUTER JOIN (
+      SELECT RN.id_tayangan, start_date_time, end_date_time
+      FROM RIWAYAT_NONTON RN
+      JOIN (
+        SELECT id_tayangan, SUM(E.durasi) as total_durasi_series
+        FROM SERIES S
+        JOIN EPISODE E ON E.id_series = S.id_tayangan
+        GROUP BY id_tayangan
+      ) AS S2 ON S2.id_tayangan = RN.id_tayangan
+      WHERE 
+        EXTRACT(EPOCH FROM end_date_time - start_date_time) >= 0.7 * S2.total_durasi_series * 60
+        AND EXTRACT(DAY FROM (NOW() - end_date_time)) <= 7
+    ) RN ON S.id_tayangan = RN.id_tayangan
+    GROUP BY S.id_tayangan
+  ) AS V
+  JOIN TAYANGAN T ON V.id_tayangan = T.id
+  WHERE T.asal_negara ILIKE %s
+  ORDER BY V.total_view DESC
+  LIMIT 10;
+"""
+
 GET_ALL_FILM = "SELECT * FROM TAYANGAN WHERE id IN (SELECT id_tayangan FROM FILM);"
 
 GET_ALL_SERIES = "SELECT * FROM TAYANGAN WHERE id IN (SELECT id_tayangan FROM SERIES);"
@@ -119,14 +200,6 @@ GET_EPISODES_OF_SERIES = '''
     SELECT *
     FROM EPISODE
     WHERE id_series=%s;
-'''
-
-GET_ULASAN_GIVEN_USERNAME = '''
-  SELECT * FROM ULASAN WHERE id_tayangan = %s ORDER BY timestamp DESC;
-'''
-
-GET_ULASAN_CURRENT_USER = '''
-  SELECT * FROM ULASAN WHERE id_tayangan = %s AND username = %s;
 '''
 
 GET_ULASAN = '''

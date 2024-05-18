@@ -28,5 +28,5 @@ def create_ulasan(request):
     except Exception as e:
         DatabaseManager.rollback()
         print(e)
-        return JsonResponse({"status": "error", "message": "Terjadi kesalahan saat menambahkan ulasan!"}, status=500)
+        return JsonResponse({"status": "error", "message": "Terjadi kesalahan saat menambahkan ulasan. Anda telah menulis ulasan untuk tayangan ini!"}, status=500)
     return JsonResponse({"status": "success", "message": "Ulasan berhasil ditambahkan!"})
