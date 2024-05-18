@@ -13,13 +13,30 @@ def show_tayangan(request):
     films = []
     series = []
     try:
+        range = request.GET.get('range', 'Global')
+        print(range)
         cursor = DatabaseManager.get_dict_cursor()
-        cursor.execute(queries.GET_TAYANGAN_TERBAIK)
+
+        if 'username' in request.COOKIES:
+            username = request.COOKIES.get('username')
+            if range == "Lokal":
+                cursor.execute(queries.GET_TAYANGAN_TERBAIK_LOCAL_LOGIN, (username,))
+            else:
+                cursor.execute(queries.GET_TAYANGAN_TERBAIK)
+        else:
+            if range == "Lokal":
+                cursor.execute(queries.GET_TAYANGAN_TERBAIK_LOCAL_GUEST, ("indonesia",)) #default indonesia ajah
+            else:
+                cursor.execute(queries.GET_TAYANGAN_TERBAIK)
+
         tayangan_terbaik_temp = cursor.fetchall()
+
         cursor.execute(queries.GET_ALL_FILM)
         films = cursor.fetchall()
+        
         cursor.execute(queries.GET_ALL_SERIES)
         series = cursor.fetchall()
+        
         cursor.close()
     except Exception as e:
         DatabaseManager.rollback()
@@ -69,18 +86,12 @@ def show_film(request, id):
         film['penulis_skenario'] = cursor.fetchall()
 
         current_user_review = None
-        if 'username' in request.COOKIES:
-            username = request.COOKIES.get('username')
-            cursor.execute(queries.GET_ULASAN_GIVEN_USERNAME, (id, username))
-            reviews = cursor.fetchall()
-            #cursor.execute(queries.GET_ULASAN_CURRENT_USER, (id, username))
-            #current_user_review = cursor.fetchone()
-        else:
-            cursor.execute(queries.GET_ULASAN, (id,))
-            reviews = cursor.fetchall()
+        
+        cursor.execute(queries.GET_ULASAN, (id,))
+        reviews = cursor.fetchall()
         ulasan = {
             "reviews": reviews,
-            "current_user_review": current_user_review
+            #"current_user_review": current_user_review
         }
         cursor.close()
     except Exception as e:
@@ -108,19 +119,12 @@ def show_series(request, id):
         cursor.execute(queries.GET_PENULIS_SKENARIO, (id,))
         series['penulis_skenario'] = cursor.fetchall()
 
-        #current_user_review = None
-        if 'username' in request.COOKIES:
-            username = request.COOKIES.get('username')
-            cursor.execute(queries.GET_ULASAN_GIVEN_USERNAME, (id, username))
-            reviews = cursor.fetchall()
-            #cursor.execute(queries.GET_ULASAN_CURRENT_USER, (id, username))
-            #current_user_review = cursor.fetchone()
-        else:
-            cursor.execute(queries.GET_ULASAN, (id,))
-            reviews = cursor.fetchall()
+        current_user_review = None
+        cursor.execute(queries.GET_ULASAN, (id,))
+        reviews = cursor.fetchall()
         ulasan = {
             "reviews": reviews,
-            "current_user_review": current_user_review
+            #"current_user_review": current_user_review
         }
         cursor.close()
     except Exception as e:
