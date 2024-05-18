@@ -39,7 +39,7 @@
                     </tr>
                     <tr>
                         <th scope="row">Rating Rata-Rata</th>
-                        <td class="text-center">{{series.rating_rata_rata}}/10</td>
+                        <td class="text-center">{{series.rating_rata_rata}}/5</td>
                     </tr>
                     <tr>
                         <th scope="row">Sinopsis</th>
@@ -88,11 +88,7 @@
               </div>
             </div>
             <div class="row mt-4">
-                <div class="col-md-12">
-                    <h4>Ulasan</h4>
-                    {% if ulasan.current_user_review  %}
-                        <li><span>{{ulasan.current_user_review.username}} - {{ulasan.current_user_review.deskripsi}} - {{ulasan.current_user_review.rating}}/5</span></li>
-                    {% else %}
+                <div class="col-md-12">                  
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Deskripsi ulasan" aria-label="Deskripsi ulasan" aria-describedby="basic-addon2" id="ulasan-deskripsi-input">
                         <input type="number" class="form-control" placeholder="Rating" aria-label="Rating" aria-describedby="basic-addon2" id="ulasan-rating-input">
@@ -100,7 +96,6 @@
                             <button id="submit-ulasan-button" class="btn btn-primary" type="button">Submit</button>
                         </div>
                     </div>
-                    {% endif %}
                     <h5>Daftar Ulasan:</h5>
                     {% if ulasan.reviews and ulasan.reviews|length > 0 %}
                     <ul class="list-group">

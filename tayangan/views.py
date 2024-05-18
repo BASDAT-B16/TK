@@ -73,8 +73,8 @@ def show_film(request, id):
             username = request.COOKIES.get('username')
             cursor.execute(queries.GET_ULASAN_GIVEN_USERNAME, (id, username))
             reviews = cursor.fetchall()
-            cursor.execute(queries.GET_ULASAN_CURRENT_USER, (id, username))
-            current_user_review = cursor.fetchone()
+            #cursor.execute(queries.GET_ULASAN_CURRENT_USER, (id, username))
+            #current_user_review = cursor.fetchone()
         else:
             cursor.execute(queries.GET_ULASAN, (id,))
             reviews = cursor.fetchall()
@@ -108,13 +108,13 @@ def show_series(request, id):
         cursor.execute(queries.GET_PENULIS_SKENARIO, (id,))
         series['penulis_skenario'] = cursor.fetchall()
 
-        current_user_review = None
+        #current_user_review = None
         if 'username' in request.COOKIES:
             username = request.COOKIES.get('username')
             cursor.execute(queries.GET_ULASAN_GIVEN_USERNAME, (id, username))
             reviews = cursor.fetchall()
-            cursor.execute(queries.GET_ULASAN_CURRENT_USER, (id, username))
-            current_user_review = cursor.fetchone()
+            #cursor.execute(queries.GET_ULASAN_CURRENT_USER, (id, username))
+            #current_user_review = cursor.fetchone()
         else:
             cursor.execute(queries.GET_ULASAN, (id,))
             reviews = cursor.fetchall()
@@ -122,7 +122,6 @@ def show_series(request, id):
             "reviews": reviews,
             "current_user_review": current_user_review
         }
-
         cursor.close()
     except Exception as e:
         DatabaseManager.rollback()
