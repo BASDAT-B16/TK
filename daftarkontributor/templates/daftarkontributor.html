@@ -38,7 +38,7 @@
   </div>
 </div>
 
-<!-- <script>
+<script>
   document.addEventListener("DOMContentLoaded", function() {
     var selectTipe = document.getElementById("tipe");
     var rows = document.querySelectorAll(".table tbody tr");
@@ -52,7 +52,7 @@
           return item.trim();
         });
 
-        if (selectedValue === "Semua" || colTipeArray.includes(selectedValue)) {
+        if (selectedValue === "all" || colTipeArray.includes(selectedValue)) {
           row.style.display = "table-row";
         } else {
           row.style.display = "none";
@@ -60,20 +60,6 @@
       });
     });
   });
-</script> -->
-
-{% block script %}
-<script>
-  const selectTipe = document.getElementById("tipe");
-  selectTipe.addEventListener("change", function () {
-    const pilihan = selectTipe.value;
-    if (pilihan == "Semua") {
-      window.location.href = '';
-    } else {
-      window.location.href = `?tipe=${pilihan}`;
-    }
-  });
 </script>
-{% endblock script %}
 
 {% endblock content %}
