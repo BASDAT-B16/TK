@@ -29,9 +29,9 @@ SUPABASE_DB_URL = os.environ.get("SUPABASE_DB_URL")
 DJANGO_ENV = os.environ.get('DJANGO_ENV')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
