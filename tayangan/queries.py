@@ -122,7 +122,7 @@ GET_EPISODES_OF_SERIES = '''
 '''
 
 GET_ULASAN_GIVEN_USERNAME = '''
-  SELECT * FROM ULASAN WHERE id_tayangan = %s AND username <> %s ORDER BY timestamp DESC;
+  SELECT * FROM ULASAN WHERE id_tayangan = %s ORDER BY timestamp DESC;
 '''
 
 GET_ULASAN_CURRENT_USER = '''
