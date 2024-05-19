@@ -67,10 +67,10 @@
       });
       let response_body = await response.json();
       if (response.ok) {
-        alert(response_body.message);
+        alert('Berhasil menambahkan paket!');
         window.location.href = "/langganan/";
       } else {
-        alert(response_body.message);
+        alert('Gagal menambahkan paket!');
       }
     });
   });
