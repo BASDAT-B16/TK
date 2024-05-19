@@ -43,12 +43,9 @@ def show_beli(request):
     if request.method == 'POST': # kalo method aksesnya post
 
         try:
-            username = request.COOKIES.get('username') # ambil username
             cursor = DatabaseManager.get_dict_cursor() # buka database
-            cursor.execute(queries.current_subscription_query, (username,)) # execute query dengan parameter username
             cursor.close() # close cursor
             return JsonResponse({'status': 'success', 'message': 'Pembelian berhasil!'}) # kalo berhasil, keluar pesan
-        
         except Exception as e: # kalo ada error
             DatabaseManager.rollback()
             print(e)
