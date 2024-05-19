@@ -22,9 +22,9 @@ def login(request):
         password = request.POST.get('password')
 
         try:
-            cursor = DatabaseManager.get_dict_cursor()
-            cursor.execute(queries.LOGIN, [username, password])
-            user = cursor.fetchone()
+            with DatabaseManager.get_dict_cursor() as cursor:
+                cursor.execute(queries.LOGIN, [username, password])
+                user = cursor.fetchone()
         except Exception as e:
             DatabaseManager.rollback()
             print(e)
@@ -51,9 +51,9 @@ def register(request):
         negara_asal = request.POST.get('country')
 
         try:
-            cursor = DatabaseManager.get_dict_cursor()
-            cursor.execute(queries.REGISTER, [username, password, negara_asal])
-            DatabaseManager.commit()
+            with DatabaseManager.get_dict_cursor() as cursor:
+                cursor.execute(queries.REGISTER, [username, password, negara_asal])
+                DatabaseManager.commit()
         except Exception as e:
             DatabaseManager.rollback()
             print(e)
