@@ -164,6 +164,7 @@ def add_riwayat_nonton(request):
         start_date_time = end_date_time - timedelta(minutes=progress_time)
         cursor.execute(queries.ADD_RIWAYAT_NONTON, (id_tayangan, username, start_date_time, end_date_time))
         DatabaseManager.commit()
+        cursor.close()
 
     except Exception as e:
         DatabaseManager.rollback()
