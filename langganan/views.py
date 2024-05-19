@@ -62,10 +62,11 @@ def show_beli(request):
 
             else: # kalo gaada yang diambil (gaada paket aktif)
                 cursor.execute(queries.create_transaction_query, (username, nama_paket, metode_pembayaran)) # execute query pake parameter yang udah diambil
-
-            DatabaseManager.commit() # di-update database-nya
-            cursor.close() # close cursor
-            return JsonResponse({'status': 'success', 'message': 'Pembelian berhasil!'}) # kalo berhasil, keluar pesan
+                DatabaseManager.commit() # di-update database-nya
+                cursor.close() # close cursor
+                return JsonResponse({'status': 'success', 'message': 'Pembelian berhasil!'}) # kalo berhasil, keluar pesan
+            
+            return JsonResponse({'status': 'failed', 'message': 'Pembelian gagal!'}) # kalo berhasil, keluar pesan
         
         except Exception as e: # kalo ada error
             DatabaseManager.rollback()
