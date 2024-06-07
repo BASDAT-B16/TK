@@ -1,5 +1,5 @@
 # Database Connection Manager
-
+ 
 import psycopg2
 import psycopg2.extras
 import environ
