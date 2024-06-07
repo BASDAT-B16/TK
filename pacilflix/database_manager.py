@@ -5,7 +5,7 @@ import psycopg2.extras
 import environ
 
 # Reference : https://www.psycopg.org/docs/usage.html
-
+ 
 env = environ.Env()
 environ.Env.read_env('.env')
 
